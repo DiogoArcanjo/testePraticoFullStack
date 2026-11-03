@@ -47,3 +47,36 @@ Dentro da pasta `frontend`:
 - `npm test`: roda os testes automatizados
 
 ## Estrutura do projeto
+- `frontend/`: aplicação React + TypeScript
+  - `src/components/`: componentes reutilizáveis
+  - `src/pages/`: uma tela por arquivo
+  - `src/mocks/`: dados simulados
+  - `src/types/`: tipos TypeScript (ex.: User)
+- `tasks/`: plano (`plan.md`) e tarefas (`todo.md`)
+- `SPEC.md`, `CAPABILITY_MAP.md`, `AI_USAGE.md`, `README.md`: documentação na raiz
+
+## Convenções
+- Componentes em PascalCase (ex.: `UserList.tsx`)
+- Variáveis e funções em camelCase (ex.: `searchTerm`)
+- Commits no formato `tipo: descrição (ID da tarefa)`,
+  com tipos `docs`, `feat`, `fix` e `test`
+- Cada tarefa do `tasks/todo.md` é validada antes de começar a próxima
+
+## Estratégia de testes
+- Verificação manual no navegador ao final de cada tarefa
+- Teste automatizado de ao menos um fluxo relevante:
+  busca na lista de usuários filtrando os resultados
+- Teste automatizado da validação do formulário
+  (campo vazio e email inválido)
+
+## Limites
+- Sem autenticação
+- Sem backend nem banco nesta entrega: dados não persistem
+  ao recarregar a página
+- Clima com dados simulados, sem chamada a API externa
+
+## Questões em aberto
+- Ordem de prioridade caso o tempo permita ampliar o escopo:
+  backend de usuários primeiro, depois integração de clima.
+- Validação de formulário: começar com validação simples
+  feita à mão; avaliar uma biblioteca se ficar complexo.
