@@ -13,4 +13,6 @@ Revisei e ajustei o escopo.
   o que cortou o arquivo na seção "Estrutura do projeto". Percebi ao
   revisar, e a estrutura foi reescrita como lista.
 
-(Vou completando as outras fases ao longo do projeto.)
+## Mudanças no plano antes do código
+- A tarefa FE-04 foi dividida em quatro (FE-04a a FE-04d) antes da
+  implementação, por ser grande demais para validar de uma vez.
