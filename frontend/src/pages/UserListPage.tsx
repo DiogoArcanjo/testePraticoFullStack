@@ -1,10 +1,36 @@
-import type { ChangeEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { usersMock } from '../mocks/users'
+
+const DEBOUNCE_MS = 400
 
 function UserListPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const search = searchParams.get('q') ?? ''
+
+  const [inputValue, setInputValue] = useState(search)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const value = inputValue.trim()
+      if (value === search) return
+
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev)
+          if (value) {
+            next.set('q', value)
+          } else {
+            next.delete('q')
+          }
+          return next
+        },
+        { replace: true },
+      )
+    }, DEBOUNCE_MS)
+
+    return () => clearTimeout(timer)
+  }, [inputValue, search, setSearchParams])
 
   const term = search.toLowerCase()
   const filteredUsers = usersMock.filter(
@@ -12,15 +38,6 @@ function UserListPage() {
       user.name.toLowerCase().includes(term) ||
       user.email.toLowerCase().includes(term),
   )
-
-  function handleSearchChange(event: ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value
-    if (value) {
-      setSearchParams({ q: value }, { replace: true })
-    } else {
-      setSearchParams({}, { replace: true })
-    }
-  }
 
   return (
     <section>
@@ -30,8 +47,8 @@ function UserListPage() {
       <input
         id="search"
         type="search"
-        value={search}
-        onChange={handleSearchChange}
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
       />
 
       {filteredUsers.length === 0 ? (
