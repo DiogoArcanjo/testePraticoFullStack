@@ -2,7 +2,7 @@
 
 | ID | Tarefa | Critério de aceite | Verificação | Estado |
 |---|---|---|---|---|
-| FE-01 | Criar projeto Vite | `npm run dev` abre a página | Navegador | pendente |
+| FE-01 | Criar projeto Vite | `npm run dev` abre a página | Navegador | feito |
 | FE-02 | Configurar rotas | Cada URL abre a tela certa | Navegador | pendente |
 | FE-03 | Lista de usuários (mock) | Mostra nome e email | Navegador | pendente |
 | FE-04 | Busca com debounce + URL | Filtra e mantém após recarregar | Navegador | pendente |
