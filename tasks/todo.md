@@ -26,4 +26,5 @@
 | BE-09 | Documentação OpenAPI | `/docs` mostra todos os endpoints | Navegador | pendente |
 | FE-09 | Frontend consumindo a API | Telas usam a API real, com estados de carregamento e erro | Navegador | feito |
 | FE-10 | Teste de um fluxo do frontend | Teste da busca ou do formulário passa | `npm test` | pendente |
+| FE-11 | Tela de clima consumindo a API | Busca usa o backend; estados de carregamento, não encontrado e erro continuam funcionando | Navegador | pendente |
 | DOC-01 | README e AI_USAGE atualizados | Seguir o README do zero roda o projeto completo | Execução do zero | pendente |
