@@ -106,5 +106,8 @@ Em `frontend`:
 - Cache do clima em memória: é perdido ao reiniciar o servidor
 
 ## Questões em aberto
-- Formato exato do `users.csv.gz` (colunas e separador): confirmar ao abrir o arquivo
+- - O arquivo `users.csv.gz` não veio com o material do teste. Premissa adotada: CSV com
+  cabeçalho e, no mínimo, as colunas `name` e `email`; outras colunas são ignoradas.
+  A importação é validada com um arquivo de exemplo fictício (`backend/data/users.sample.csv.gz`),
+  com linhas inválidas e emails duplicados, até o arquivo real ser recebido.
 - Limites do plano gratuito da WeatherAPI
