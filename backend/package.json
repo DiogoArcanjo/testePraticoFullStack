@@ -7,13 +7,15 @@
     "test": "vitest run",
     "dev": "tsx watch src/server.ts",
     "typecheck": "tsc --noEmit",
-    "migrate": "node-pg-migrate -j sql"
+    "migrate": "node-pg-migrate -j sql",
+    "import": "tsx scripts/import-users.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "csv-parse": "^7.0.3",
     "dotenv": "^18.0.9",
     "express": "^5.3.0",
     "pg": "^8.23.1",
