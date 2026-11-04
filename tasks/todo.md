@@ -19,8 +19,8 @@
 | BE-02 | Projeto do backend + env validado | API responde em `/health`; sem variável obrigatória, o servidor não sobe e explica o motivo | curl | feito |
 | BE-03 | Migration da tabela `users` | Tabela com id UUID, name, email único, created_at e updated_at | `npm run migrate up` + consulta no banco | feito |
 | BE-04 | Endpoints de usuários | Códigos 201, 200, 204, 400, 404 e 409 com erro em formato consistente | curl | feito |
-| BE-05 | Listagem com filtro, paginação e ordenação | Filtro parcial, `page`, `pageSize`, `order` e `meta` | curl | pendente |
-| BE-06 | Testes de integração dos usuários | Criação, email duplicado, filtros e paginação passam | `npm test` | pendente |
+| BE-05 | Listagem com filtro, paginação e ordenação | Filtro parcial, `page`, `pageSize`, `order` e `meta` | curl | feito |
+| BE-06 | Testes de integração dos usuários | Criação, email duplicado, filtros e paginação passam | `npm test` | feito |
 | BE-07 | Importação do CSV | Reproduzível; relata importados, inválidos e duplicados; rodar duas vezes não duplica | `npm run import` | pendente |
 | BE-08 | Clima com cache e tratamento de falhas | Contrato próprio; cache com expiração; 404, 429, 503 e 504 | `npm test` | pendente |
 | BE-09 | Documentação OpenAPI | `/docs` mostra todos os endpoints | Navegador | pendente |
