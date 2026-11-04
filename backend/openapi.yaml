@@ -1,0 +1,405 @@
+openapi: 3.0.3
+info:
+  title: Gerenciador de usuários
+  version: 1.0.0
+  description: >
+    API REST para gerenciamento de usuários e consulta de clima.
+    Todos os erros seguem o formato { "error": { "code": "...", "message": "..." } },
+    sem detalhes internos.
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: Usuários
+  - name: Clima
+  - name: Saúde
+
+paths:
+  /health:
+    get:
+      tags: [Saúde]
+      summary: Verifica se a API e o banco estão respondendo
+      responses:
+        '200':
+          description: API funcionando
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /users:
+    get:
+      tags: [Usuários]
+      summary: Lista e pesquisa usuários
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Order'
+      responses:
+        '200':
+          description: Página de usuários com os metadados de paginação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+    post:
+      tags: [Usuários]
+      summary: Cadastra um usuário
+      description: O email é salvo em minúsculas e precisa ser único.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: Usuário criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          $ref: '#/components/responses/EmailAlreadyExists'
+
+  /users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/UserId'
+    get:
+      tags: [Usuários]
+      summary: Busca um usuário pelo id
+      responses:
+        '200':
+          description: Usuário encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+    patch:
+      tags: [Usuários]
+      summary: Atualiza um usuário
+      description: Envie ao menos um dos campos. Os campos não enviados são mantidos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Usuário atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+        '409':
+          $ref: '#/components/responses/EmailAlreadyExists'
+    delete:
+      tags: [Usuários]
+      summary: Remove um usuário
+      responses:
+        '204':
+          description: Usuário removido
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/UserNotFound'
+
+  /weather/{city}:
+    get:
+      tags: [Clima]
+      summary: Consulta o clima atual e a variação de temperatura do dia
+      description: >
+        Consulta a WeatherAPI e converte a resposta para o contrato abaixo.
+        O resultado fica em cache por 10 minutos por cidade
+        (nome sem espaços nas pontas e em minúsculas, mantendo os acentos).
+      parameters:
+        - name: city
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 100
+          example: Curitiba
+      responses:
+        '200':
+          description: Clima da cidade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Weather'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/CityNotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '503':
+          $ref: '#/components/responses/WeatherUnavailable'
+        '504':
+          $ref: '#/components/responses/WeatherTimeout'
+
+components:
+  parameters:
+    UserId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    Search:
+      name: q
+      in: query
+      description: Filtro parcial por nome ou email, sem diferenciar maiúsculas
+      schema:
+        type: string
+        maxLength: 100
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: pageSize
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    Order:
+      name: order
+      in: query
+      description: Ordenação por nome
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: asc
+
+  schemas:
+    User:
+      type: object
+      required: [id, name, email, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Ana Souza
+        email:
+          type: string
+          format: email
+          example: ana.souza@example.com
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    UserInput:
+      type: object
+      required: [name, email]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+          example: Ana Souza
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          example: ana.souza@example.com
+    UserUpdate:
+      type: object
+      minProperties: 1
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        email:
+          type: string
+          format: email
+          maxLength: 254
+    PaginationMeta:
+      type: object
+      required: [page, pageSize, total, totalPages]
+      properties:
+        page:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 42
+        totalPages:
+          type: integer
+          example: 5
+    UserList:
+      type: object
+      required: [data, meta]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    HourlyTemperature:
+      type: object
+      required: [time, temperature]
+      properties:
+        time:
+          type: string
+          example: 14h
+        temperature:
+          type: number
+          example: 25
+    Weather:
+      type: object
+      required: [city, region, country, temperature, humidity, condition, hourly]
+      properties:
+        city:
+          type: string
+          example: Curitiba
+        region:
+          type: string
+          example: Parana
+        country:
+          type: string
+          example: Brazil
+        temperature:
+          type: number
+          description: Temperatura atual em °C
+          example: 24
+        humidity:
+          type: number
+          description: Umidade relativa em %
+          example: 76
+        condition:
+          type: string
+          example: Garoa fraca
+        hourly:
+          type: array
+          items:
+            $ref: '#/components/schemas/HourlyTemperature'
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              description: Presente apenas em erros de validação
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+
+  responses:
+    ValidationError:
+      description: Dados ou parâmetros inválidos
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: VALIDATION_ERROR
+              message: Dados inválidos.
+              details:
+                - field: email
+                  message: Informe um email válido.
+    UserNotFound:
+      description: Usuário não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: USER_NOT_FOUND
+              message: Usuário não encontrado.
+    EmailAlreadyExists:
+      description: Email já cadastrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: EMAIL_ALREADY_EXISTS
+              message: Este email já está cadastrado.
+    CityNotFound:
+      description: Cidade não encontrada
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: CITY_NOT_FOUND
+              message: Cidade não encontrada.
+    RateLimited:
+      description: Limite de consultas ao provedor de clima atingido
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: WEATHER_RATE_LIMITED
+              message: Limite de consultas de clima atingido. Tente novamente mais tarde.
+    WeatherUnavailable:
+      description: Provedor de clima indisponível
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: WEATHER_UNAVAILABLE
+              message: Serviço de clima indisponível no momento.
+    WeatherTimeout:
+      description: O provedor de clima demorou mais de 5 segundos
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: WEATHER_TIMEOUT
+              message: O serviço de clima demorou demais para responder.
