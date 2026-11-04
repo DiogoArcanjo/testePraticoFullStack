@@ -9,6 +9,7 @@
 | FE-04b | Debounce na busca | O filtro só é aplicado depois que a pessoa para de digitar | Navegador | feito |
 | FE-04c | Ordenação por nome | Alterna A-Z / Z-A e a ordem fica na URL | Navegador | feito |
 | FE-04d | Paginação | Mostra página atual e total; a página fica na URL | Navegador | feito |
-| FE-05 | Formulário com validação | Mostra erro em campo vazio/email inválido | Navegador | pendente |
+| FE-05a | Serviço em memória + formulário de cadastro | Cadastro válido aparece na lista; campo vazio, email inválido ou duplicado mostra erro | Navegador | pendente |
+| FE-05b | Edição de usuário | Edição salva as mudanças; email de outro usuário é rejeitado | Navegador | pendente |
 | FE-06 | Tela de detalhes | Mostra dados e botões editar/excluir | Navegador | pendente |
 | FE-07 | Tela de clima (mock) | Mostra temperatura, umidade e gráfico | Navegador | pendente |

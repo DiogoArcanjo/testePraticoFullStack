@@ -13,6 +13,7 @@ Aplicação para consulta e gerenciamento de usuários, com consulta de clima po
   trocados pela API real depois, sem reescrever as telas.
 - Os dados simulados ficam em um único lugar (`src/mocks`).
 - Autenticação está fora do escopo, conforme o enunciado.
+- Cadastros e edições ficam em memória e são perdidos ao recarregar a página. 
 
 ## Stack
 - React + TypeScript, criado com Vite
@@ -39,6 +40,7 @@ Aplicação para consulta e gerenciamento de usuários, com consulta de clima po
       e um gráfico da variação ao longo do dia
 - [ ] Estados de carregamento, lista vazia e erro aparecem na tela
 - [ ] A interface funciona no celular e pode ser usada só pelo teclado
+- [ ] O formulário impede cadastrar um email que já existe
 
 ## Comandos
 Dentro da pasta `frontend`:
@@ -52,6 +54,7 @@ Dentro da pasta `frontend`:
   - `src/pages/`: uma tela por arquivo
   - `src/mocks/`: dados simulados
   - `src/types/`: tipos TypeScript (ex.: User)
+  - `src/services/`: funções de acesso aos dados (hoje em memória; depois chamarão a API)
 - `tasks/`: plano (`plan.md`) e tarefas (`todo.md`)
 - `SPEC.md`, `CAPABILITY_MAP.md`, `AI_USAGE.md`, `README.md`: documentação na raiz
 
