@@ -41,6 +41,7 @@ Aplicação para consulta e gerenciamento de usuários, com consulta de clima po
 - [ ] Estados de carregamento, lista vazia e erro aparecem na tela
 - [ ] A interface funciona no celular e pode ser usada só pelo teclado
 - [ ] O formulário impede cadastrar um email que já existe
+- [ ] A pessoa pode alternar entre tema claro e escuro, e a escolha é lembrada
 
 ## Comandos
 Dentro da pasta `frontend`:
