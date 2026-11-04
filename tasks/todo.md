@@ -21,7 +21,7 @@
 | BE-04 | Endpoints de usuários | Códigos 201, 200, 204, 400, 404 e 409 com erro em formato consistente | curl | feito |
 | BE-05 | Listagem com filtro, paginação e ordenação | Filtro parcial, `page`, `pageSize`, `order` e `meta` | curl | feito |
 | BE-06 | Testes de integração dos usuários | Criação, email duplicado, filtros e paginação passam | `npm test` | feito |
-| BE-07 | Importação do CSV | Reproduzível; relata importados, inválidos e duplicados; rodar duas vezes não duplica | `npm run import` | pendente |
+| BE-07 | Importação do CSV | Reproduzível; relata importados, inválidos e duplicados; rodar duas vezes não duplica | `npm run import` | feito |
 | BE-08 | Clima com cache e tratamento de falhas | Contrato próprio; cache com expiração; 404, 429, 503 e 504 | `npm test` | feito |
 | BE-09 | Documentação OpenAPI | `/docs` mostra todos os endpoints | Navegador | feito |
 | FE-09 | Frontend consumindo a API | Telas usam a API real, com estados de carregamento e erro | Navegador | feito |
