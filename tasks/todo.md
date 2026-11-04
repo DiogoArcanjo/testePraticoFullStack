@@ -15,7 +15,7 @@
 | FE-07 | Tela de clima (mock) | Mostra temperatura, umidade e gráfico | Navegador | feito |
 | FE-08 | Visual responsivo e acessível, com tema claro/escuro | Telas legíveis no celular e no computador; foco visível no teclado; botão alterna o tema e a escolha é mantida ao recarregar | Navegador (desktop, modo celular, F5) | feito |
 
-| BE-01 | PostgreSQL com docker compose | `docker compose up -d` sobe o banco | `docker compose ps` | pendente |
+| BE-01 | PostgreSQL com docker compose | `docker compose up -d` sobe o banco | `docker compose ps` | feito |
 | BE-02 | Projeto do backend + env validado | API responde em `/health`; sem variável obrigatória, o servidor não sobe e explica o motivo | curl | pendente |
 | BE-03 | Migration da tabela `users` | Tabela com id UUID, name, email único, created_at e updated_at | `npm run migrate up` + consulta no banco | pendente |
 | BE-04 | Endpoints de usuários | Códigos 201, 200, 204, 400, 404 e 409 com erro em formato consistente | curl | pendente |
