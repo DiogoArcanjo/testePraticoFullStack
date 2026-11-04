@@ -46,3 +46,7 @@ export function updateUser(id: string, input: UserInput): User | undefined {
   users = users.map((user) => (user.id === id ? updated : user));
   return updated;
 }
+
+export function deleteUser(id: string): void {
+  users = users.filter((user) => user.id !== id)
+}
