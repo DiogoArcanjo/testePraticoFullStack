@@ -79,6 +79,10 @@ Implementei uma tarefa por vez. Para cada uma: pedia o código explicado, lia e 
 - **FE-05:** antes de implementar, adicionei ao SPEC a camada de serviço em memória (`src/services`) e o critério de email duplicado, e dividi a tarefa em FE-05a (cadastro) e FE-05b (edição).
 - **FE-08:** criei a tarefa de visual no `todo.md` antes do CSS. Quando decidi ter tema claro e escuro, atualizei primeiro o critério no SPEC e no `todo.md`, e só depois implementei.
 
+- **Ampliação do escopo:** depois de entregar o frontend, reavaliei e decidi implementar
+  também a stack obrigatória (backend, banco e clima real). Antes de escrever qualquer código,
+  atualizei o SPEC (escopo, stack, contrato da API e critérios), o CAPABILITY_MAP, o plano e as tarefas.
+
 ## Rastreabilidade
 
 | Requisito/critério | Tarefa | Commit | Verificação |
