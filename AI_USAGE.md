@@ -11,7 +11,11 @@ Usei a IA como par de programação e tutora. Como eu estava começando em React
 
 | Skill/origem | Objetivo | Fase | Influência no projeto | Minha decisão | Validação |
 |---|---|---|---|---|---|
-| `frontend-design` (skill pública da Anthropic, disponível no claude.ai) | Orientar o redesenho visual com uma direção definida, evitando aparência de template | Implement (FE-08) | `src/index.css`, menu no `App.tsx`, fonte no `index.html` | Aceitei a paleta, a tipografia e a ideia de cortar elementos genéricos (cartão com sombra, menu em "pílulas", cabeçalhos em caixa alta). Adaptei pedindo tema claro e escuro com botão, e depois pedi um botão de tema mais discreto | Revisão visual nos dois temas, no modo celular do navegador e navegando só com teclado |
+| `frontend-design` (skill pública da Anthropic, disponível no claude.ai) 
+| Orientar o redesenho visual com uma direção definida, evitando aparência de template 
+| Implement (FE-08) | `src/index.css`, menu no `App.tsx`, fonte no `index.html` 
+| Aceitei a paleta, a tipografia e a ideia de cortar elementos genéricos (cartão com sombra, menu em "pílulas", cabeçalhos em caixa alta). Adaptei pedindo tema claro e escuro com botão, e depois pedi um botão de tema mais discreto 
+| Revisão visual nos dois temas, no modo celular do navegador e navegando só com teclado |
 
 Não usei agentes nem comandos reutilizáveis. O fluxo de trabalho foi o Spec-Driven Development pedido no enunciado (Specify → Plan → Tasks → Implement), conduzido na conversa: uma tarefa por vez, com verificação e commit antes de passar para a próxima.
 
@@ -39,9 +43,13 @@ Implementei uma tarefa por vez. Para cada uma: pedia o código explicado, lia e 
 
 | Fase | Objetivo | Como a IA foi orientada | Decisão tomada | Artefato alterado | Como foi verificado |
 |---|---|---|---|---|---|
+
 | Specify | Definir escopo e critérios | Enviei o enunciado e expliquei meu nível e o prazo | Rejeitei o escopo completo sugerido e fiquei com frontend + mock | `SPEC.md` | Revisão do SPEC contra os itens obrigatórios do enunciado |
+
 | Plan | Ordenar a implementação | Pedi um plano com riscos e checkpoints | Aceitei a ordem proposta | `tasks/plan.md` | Checagem de dependências entre as telas |
+
 | Tasks | Tarefas pequenas e verificáveis | Pedi critérios de aceite para cada tarefa | Dividi a FE-04 e a FE-05 antes de implementar | `tasks/todo.md` | Cada critério testado antes de marcar como feito |
+
 | Implement | Código e visual | Uma tarefa por vez, com o critério de aceite da tarefa | Corrigi nomes de arquivos, pedi ajustes no visual | Código em `frontend/src` | Testes manuais no navegador, modo celular e teclado |
 
 ## Exemplos de instruções dadas à IA
@@ -107,6 +115,5 @@ Implementei uma tarefa por vez. Para cada uma: pedia o código explicado, lia e 
 - A decisão de escopo e de prioridades.
 - A execução de todos os testes no navegador.
 - A configuração do Git e do GitHub. Não enviei email, credenciais ou dados pessoais para a ferramenta.
-- A correção da `div` sem fechamento, que encontrei sozinho.
 
 Os dados de exemplo usam o domínio `example.com`, reservado para testes, para não envolver dados de pessoas reais.
