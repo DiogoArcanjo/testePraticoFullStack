@@ -29,19 +29,19 @@ Aplicação para consulta e gerenciamento de usuários, com consulta de clima po
 - `/weather`: busca de clima por cidade
 
 ## Critérios de sucesso
-- [ ] A lista filtra por nome ou email (busca parcial)
-- [ ] A lista pode ser ordenada por nome
-- [ ] A lista é paginada e mostra a página atual e o total de páginas
-- [ ] Os filtros ficam na URL (recarregar a página mantém a busca)
-- [ ] A busca não dispara a cada tecla digitada (debounce)
-- [ ] O formulário valida nome obrigatório e email válido, com mensagens claras
-- [ ] A tela de detalhes permite editar e excluir o usuário
-- [ ] A tela de clima mostra temperatura, umidade, condição atual
+- [X] A lista filtra por nome ou email (busca parcial)
+- [X] A lista pode ser ordenada por nome
+- [X] A lista é paginada e mostra a página atual e o total de páginas
+- [X] Os filtros ficam na URL (recarregar a página mantém a busca)
+- [X] A busca não dispara a cada tecla digitada (debounce)
+- [X] O formulário valida nome obrigatório e email válido, com mensagens claras
+- [X] A tela de detalhes permite editar e excluir o usuário
+- [X] A tela de clima mostra temperatura, umidade, condição atual
       e um gráfico da variação ao longo do dia
-- [ ] Estados de carregamento, lista vazia e erro aparecem na tela
-- [ ] A interface funciona no celular e pode ser usada só pelo teclado
-- [ ] O formulário impede cadastrar um email que já existe
-- [ ] A pessoa pode alternar entre tema claro e escuro, e a escolha é lembrada
+- [X] Estados de carregamento, lista vazia e erro aparecem na tela
+- [X] A interface funciona no celular e pode ser usada só pelo teclado
+- [X] O formulário impede cadastrar um email que já existe
+- [X] A pessoa pode alternar entre tema claro e escuro, e a escolha é lembrada
 
 ## Comandos
 Dentro da pasta `frontend`:
