@@ -64,3 +64,43 @@ export async function deleteUserById(id: string): Promise<boolean> {
   const result = await pool.query('DELETE FROM users WHERE id = $1', [id])
   return (result.rowCount ?? 0) > 0
 }
+
+type ListParams = {
+  q: string
+  page: number
+  pageSize: number
+  order: 'asc' | 'desc'
+}
+
+function escapeLike(value: string): string {
+  return value.replace(/[\\%_]/g, (char) => `\\${char}`)
+}
+
+export async function listUsers({ q, page, pageSize, order }: ListParams) {
+  const search = `%${escapeLike(q)}%`
+  const direction = order === 'desc' ? 'DESC' : 'ASC'
+  const offset = (page - 1) * pageSize
+  const where = 'WHERE name ILIKE $1 OR email ILIKE $1'
+
+  const [countResult, dataResult] = await Promise.all([
+    pool.query<{ total: string }>(`SELECT count(*) AS total FROM users ${where}`, [search]),
+    pool.query<UserRow>(
+      `SELECT ${COLUMNS} FROM users ${where}
+       ORDER BY name ${direction}, id ${direction}
+       LIMIT $2 OFFSET $3`,
+      [search, pageSize, offset],
+    ),
+  ])
+
+  const total = Number(countResult.rows[0].total)
+
+  return {
+    data: dataResult.rows.map(toUser),
+    meta: {
+      page,
+      pageSize,
+      total,
+      totalPages: Math.max(1, Math.ceil(total / pageSize)),
+    },
+  }
+}

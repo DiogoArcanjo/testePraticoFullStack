@@ -1,14 +1,26 @@
 import { Router } from 'express'
 import { AppError } from '../errors'
-import { createUserSchema, updateUserSchema, userIdSchema } from './userSchemas'
+import {
+  createUserSchema,
+  listUsersQuerySchema,
+  updateUserSchema,
+  userIdSchema,
+} from './userSchemas'
 import {
   deleteUserById,
   findUserById,
   insertUser,
+  listUsers,
   updateUserById,
 } from './userRepository'
 
 export const userRoutes = Router()
+
+userRoutes.get('/', async (req, res) => {
+  const query = listUsersQuerySchema.parse(req.query)
+  const result = await listUsers(query)
+  res.json(result)
+})
 
 userRoutes.post('/', async (req, res) => {
   const data = createUserSchema.parse(req.body)

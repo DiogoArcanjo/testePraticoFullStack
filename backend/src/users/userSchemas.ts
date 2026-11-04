@@ -28,3 +28,15 @@ export const updateUserSchema = z
   })
 
 export const userIdSchema = z.string().uuid('Identificador inválido.')
+
+export const listUsersQuerySchema = z.object({
+  q: z.string().trim().max(100).default(''),
+  page: z.coerce.number().int().min(1, 'A página deve ser 1 ou maior.').default(1),
+  pageSize: z.coerce
+    .number()
+    .int()
+    .min(1, 'O tamanho da página deve ser 1 ou maior.')
+    .max(100, 'O tamanho máximo da página é 100.')
+    .default(10),
+  order: z.enum(['asc', 'desc']).default('asc'),
+})
