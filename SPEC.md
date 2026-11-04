@@ -28,8 +28,12 @@ Aplicação fullstack para consulta e gerenciamento de usuários, com consulta d
 - `GET /users/:id`: 200; 400 id não é UUID; 404 não encontrado
 - `PATCH /users/:id`: 200; 400; 404; 409
 - `DELETE /users/:id`: 204; 400; 404
-- `GET /weather/:city`: 200; 404 cidade inexistente; 429 limite; 503 indisponível; 504 timeout
+- `GET /weather/:city`: 200 com cidade, região, país, temperatura, umidade, condição e variação por hora;
+  404 cidade inexistente; 429 limite; 503 indisponível; 504 timeout.
+  O cache usa o nome da cidade sem espaços nas pontas e em minúsculas, mantendo os acentos,
+  porque o provedor trata grafias com e sem acento como buscas diferentes.
 - Erros sempre no formato `{ "error": { "code": "...", "message": "..." } }`, sem detalhes internos
+
 
 ## Critérios de sucesso
 

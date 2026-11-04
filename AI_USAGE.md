@@ -72,6 +72,11 @@ Implementei uma tarefa por vez. Para cada uma: pedia o código explicado, lia e 
 - **SPEC cortado:** o `SPEC.md` gerado tinha um bloco de código dentro de outro, o que cortou o arquivo na seção "Estrutura do projeto". Percebi na revisão, e a estrutura foi reescrita como lista.
 - **Pedido mal interpretado:** quando pedi tema claro e escuro, a IA entendeu que eu queria só o tema claro. Corrigi a instrução antes de fazer o commit.
 - **Botão de tema:** a primeira versão tinha texto e borda, chamando atenção demais. Pedi uma versão mais discreta.
+- **Nome da cidade no clima:** ao buscar "São Paulo", a tela mostrava "San Paulo". A IA concluiu
+  primeiro que o provedor tinha encontrado outro lugar. Para verificar, atualizei o contrato no SPEC
+  e passei a exibir região e país, o que mostrou que era a cidade correta ("Sao Paulo, Brazil"),
+  apenas com a grafia usada pelo provedor. O diagnóstico inicial da IA estava errado; a exibição de
+  região e país ficou, porque ajuda em nomes ambíguos.
 
 ## Mudanças na especificação ou no plano antes do código
 

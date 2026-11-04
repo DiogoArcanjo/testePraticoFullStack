@@ -1,12 +1,14 @@
 export type HourlyTemperature = {
-  time: string
-  temperature: number
-}
+  time: string;
+  temperature: number;
+};
 
 export type Weather = {
-  city: string
-  temperature: number
-  humidity: number
-  condition: string
-  hourly: HourlyTemperature[]
-}
+  city: string;
+  temperature: number;
+  humidity: number;
+  condition: string;
+  hourly: HourlyTemperature[];
+  region: string;
+  country: string;
+};

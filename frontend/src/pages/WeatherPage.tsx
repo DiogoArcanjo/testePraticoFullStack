@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
-import { useSearchParams } from 'react-router'
+import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
+import { useSearchParams } from "react-router";
 import {
   CartesianGrid,
   Line,
@@ -9,59 +9,68 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts'
-import { fetchWeather } from '../services/weatherService'
-import type { Weather } from '../types/weather'
+} from "recharts";
+import { ApiError } from "../services/api";
+import { fetchWeather } from "../services/weatherService";
+import type { Weather } from "../types/weather";
 
-type Status = 'idle' | 'loading' | 'success' | 'not-found' | 'error'
+type Status = "idle" | "loading" | "success" | "not-found" | "error";
+
+const GENERIC_ERROR =
+  "Não foi possível consultar o clima agora. Tente novamente em instantes.";
 
 function WeatherPage() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const city = searchParams.get('city') ?? ''
+  const [searchParams, setSearchParams] = useSearchParams();
+  const city = searchParams.get("city") ?? "";
 
-  const [inputValue, setInputValue] = useState(city)
-  const [status, setStatus] = useState<Status>('idle')
-  const [weather, setWeather] = useState<Weather | null>(null)
+  const [inputValue, setInputValue] = useState(city);
+  const [status, setStatus] = useState<Status>("idle");
+  const [weather, setWeather] = useState<Weather | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (!city) {
-      setStatus('idle')
-      return
+      setStatus("idle");
+      return;
     }
 
-    let ignore = false
-    setStatus('loading')
+    let ignore = false;
+    setStatus("loading");
 
     fetchWeather(city)
       .then((result) => {
-        if (ignore) return
+        if (ignore) return;
         if (result) {
-          setWeather(result)
-          setStatus('success')
+          setWeather(result);
+          setStatus("success");
         } else {
-          setStatus('not-found')
+          setStatus("not-found");
         }
       })
-      .catch(() => {
-        if (!ignore) setStatus('error')
-      })
+      .catch((error) => {
+        if (ignore) return;
+        const knownFailure =
+          error instanceof ApiError && [429, 503, 504].includes(error.status);
+        setErrorMessage(knownFailure ? error.message : GENERIC_ERROR);
+        setStatus("error");
+      });
 
     return () => {
-      ignore = true
-    }
-  }, [city])
+      ignore = true;
+    };
+  }, [city]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const value = inputValue.trim()
+    event.preventDefault();
+    const value = inputValue.trim();
     if (value) {
-      setSearchParams({ city: value })
+      setSearchParams({ city: value });
     }
   }
 
-  const temperatures = weather?.hourly.map((hour) => hour.temperature) ?? []
-  const minTemperature = Math.min(...temperatures)
-  const maxTemperature = Math.max(...temperatures)
+  const temperatures = weather?.hourly.map((hour) => hour.temperature) ?? [];
+  const minTemperature = Math.min(...temperatures);
+  const maxTemperature = Math.max(...temperatures);
 
   return (
     <section>
@@ -78,25 +87,22 @@ function WeatherPage() {
         <button type="submit">Buscar</button>
       </form>
 
-      {status === 'idle' && <p>Digite uma cidade para ver o clima.</p>}
+      {status === "idle" && <p>Digite uma cidade para ver o clima.</p>}
 
-      {status === 'loading' && <p role="status">Carregando...</p>}
+      {status === "loading" && <p role="status">Carregando...</p>}
 
-      {status === 'not-found' && (
+      {status === "not-found" && (
         <p role="alert">
-          Cidade não encontrada. Tente São Paulo, Rio de Janeiro ou Curitiba.
+          Cidade não encontrada. Confira o nome e tente novamente.
         </p>
       )}
 
-      {status === 'error' && (
-        <p role="alert">
-          Não foi possível consultar o clima agora. Tente novamente em instantes.
-        </p>
-      )}
+      {status === "error" && <p role="alert">{errorMessage}</p>}
 
-      {status === 'success' && weather && (
+      {status === "success" && weather && (
         <div>
           <h2>{weather.city}</h2>
+          <p>{[weather.region, weather.country].filter(Boolean).join(", ")}</p>
 
           <dl>
             <dt>Temperatura</dt>
@@ -114,7 +120,7 @@ function WeatherPage() {
             Mínima de {minTemperature} °C e máxima de {maxTemperature} °C.
           </p>
 
-          <div style={{ width: '100%', height: 300 }}>
+          <div style={{ width: "100%", height: 300 }}>
             <ResponsiveContainer>
               <LineChart data={weather.hourly}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -125,7 +131,7 @@ function WeatherPage() {
                   type="monotone"
                   dataKey="temperature"
                   name="Temperatura"
-                  stroke="#8884d8"
+                  strokeWidth={2}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -133,7 +139,7 @@ function WeatherPage() {
         </div>
       )}
     </section>
-  )
+  );
 }
 
-export default WeatherPage
+export default WeatherPage;
