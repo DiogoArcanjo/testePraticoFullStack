@@ -107,6 +107,9 @@ Uma tarefa por vez: pedia o código explicado, aplicava, verificava os critério
 - Pelo `git status`, percebi que um commit tinha ficado incompleto (o `git add .` foi rodado de dentro de `backend`) e fiz um commit complementar.
 - Acompanhei o painel de Problemas do VS Code antes de cada commit.
 - Erros encontrados e corrigidos: imports quebrados por nomes de arquivo diferentes (o Linux diferencia maiúsculas de minúsculas), uma `div` sem fechamento e arquivos criados na pasta errada.
+- Antes de testar com volume, a IA previu que a aplicação aguentaria 100 mil usuários e que a
+  página distante seria o ponto mais lento. Em vez de aceitar a previsão, gerei um arquivo com
+  100 mil linhas, importei e medi os tempos com curl. Os números confirmaram a previsão.
 
 ## Limitações percebidas e onde não usei IA
 

@@ -113,6 +113,11 @@ Ao final, o script mostra quantas linhas foram lidas, importadas, inválidas, du
 
 **Premissa:** o `users.csv.gz` não veio com o material do teste. O script assume um CSV com cabeçalho e, no mínimo, as colunas `name` e `email`, e foi validado com o arquivo de exemplo `backend/data/users.sample.csv`, que contém de propósito linhas inválidas e emails repetidos. Se o cabeçalho for diferente, o script para logo na primeira linha com uma mensagem clara.
 
+**Teste de volume:** com um arquivo gerado de 100.003 linhas (100 mil válidas, 2 inválidas e
+1 duplicada), a importação levou cerca de 4,3 segundos. Com a tabela cheia, a primeira página
+da listagem respondeu em cerca de 45 ms, uma busca por email em cerca de 4 ms e a página 10.000
+em cerca de 76 ms, o que confirma o custo maior do `OFFSET` em páginas distantes.
+
 ## Testes
 
 **Backend** (com o banco rodando). Na primeira vez, aplique as migrations no banco de testes:
