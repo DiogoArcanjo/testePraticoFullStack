@@ -1,12 +1,31 @@
 import { Link, useNavigate, useParams } from 'react-router'
 import UserForm from '../components/UserForm'
-import { getUser, updateUser } from '../services/userService'
+import { useUser } from '../hooks/useUser'
+import { updateUser } from '../services/userService'
 import type { UserInput } from '../services/userService'
 
 function UserEditPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const user = id ? getUser(id) : undefined
+  const { user, status } = useUser(id)
+
+  if (status === 'loading') {
+    return (
+      <section>
+        <p role="status">Carregando usuário...</p>
+      </section>
+    )
+  }
+
+  if (status === 'error') {
+    return (
+      <section>
+        <h1>Erro ao carregar</h1>
+        <p role="alert">Não foi possível carregar o usuário. Tente novamente.</p>
+        <Link to="/users">Voltar para a lista</Link>
+      </section>
+    )
+  }
 
   if (!user) {
     return (
@@ -17,9 +36,9 @@ function UserEditPage() {
     )
   }
 
-  function handleUpdate(values: UserInput) {
+  async function handleUpdate(values: UserInput) {
     if (!user) return
-    updateUser(user.id, values)
+    await updateUser(user.id, values)
     navigate(`/users/${user.id}`)
   }
 
@@ -28,7 +47,6 @@ function UserEditPage() {
       <h1>Editar usuário</h1>
       <UserForm
         initialValues={{ name: user.name, email: user.email }}
-        ignoreId={user.id}
         submitLabel="Salvar alterações"
         onSubmit={handleUpdate}
       />

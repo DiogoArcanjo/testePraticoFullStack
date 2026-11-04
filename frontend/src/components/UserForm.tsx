@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { emailExists } from '../services/userService'
+import { ApiError } from '../services/api'
 import type { UserInput } from '../services/userService'
 
 type FormErrors = {
@@ -10,7 +10,7 @@ type FormErrors = {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-function validate(values: UserInput, ignoreId?: string): FormErrors {
+function validate(values: UserInput): FormErrors {
   const errors: FormErrors = {}
   const name = values.name.trim()
   const email = values.email.trim()
@@ -23,8 +23,6 @@ function validate(values: UserInput, ignoreId?: string): FormErrors {
     errors.email = 'Informe o email.'
   } else if (!EMAIL_REGEX.test(email)) {
     errors.email = 'Informe um email válido, como nome@exemplo.com.'
-  } else if (emailExists(email, ignoreId)) {
-    errors.email = 'Este email já está cadastrado.'
   }
 
   return errors
@@ -32,32 +30,47 @@ function validate(values: UserInput, ignoreId?: string): FormErrors {
 
 type UserFormProps = {
   initialValues?: UserInput
-  ignoreId?: string
   submitLabel: string
-  onSubmit: (values: UserInput) => void
+  onSubmit: (values: UserInput) => Promise<void>
 }
 
 function UserForm({
   initialValues = { name: '', email: '' },
-  ignoreId,
   submitLabel,
   onSubmit,
 }: UserFormProps) {
   const [values, setValues] = useState<UserInput>(initialValues)
   const [errors, setErrors] = useState<FormErrors>({})
+  const [formError, setFormError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   function handleChange(field: keyof UserInput, value: string) {
     setValues((prev) => ({ ...prev, [field]: value }))
     setErrors((prev) => ({ ...prev, [field]: undefined }))
+    setFormError('')
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const newErrors = validate(values, ignoreId)
+    const newErrors = validate(values)
     setErrors(newErrors)
+    if (Object.keys(newErrors).length > 0) return
 
-    if (Object.keys(newErrors).length === 0) {
-      onSubmit(values)
+    setSubmitting(true)
+    setFormError('')
+
+    try {
+      await onSubmit(values)
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 409) {
+        setErrors({ email: 'Este email já está cadastrado.' })
+      } else if (error instanceof ApiError) {
+        setFormError(error.message)
+      } else {
+        setFormError('Não foi possível salvar. Tente novamente.')
+      }
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -97,7 +110,11 @@ function UserForm({
         )}
       </div>
 
-      <button type="submit">{submitLabel}</button>
+      {formError && <p role="alert">{formError}</p>}
+
+      <button type="submit" disabled={submitting}>
+        {submitting ? 'Salvando...' : submitLabel}
+      </button>
     </form>
   )
 }

@@ -6,8 +6,8 @@ import type { UserInput } from '../services/userService'
 function UserCreatePage() {
   const navigate = useNavigate()
 
-  function handleCreate(values: UserInput) {
-    const user = createUser(values)
+  async function handleCreate(values: UserInput) {
+    const user = await createUser(values)
     navigate(`/users/${user.id}`)
   }
 

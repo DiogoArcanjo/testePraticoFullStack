@@ -24,6 +24,6 @@
 | BE-07 | Importação do CSV | Reproduzível; relata importados, inválidos e duplicados; rodar duas vezes não duplica | `npm run import` | pendente |
 | BE-08 | Clima com cache e tratamento de falhas | Contrato próprio; cache com expiração; 404, 429, 503 e 504 | `npm test` | pendente |
 | BE-09 | Documentação OpenAPI | `/docs` mostra todos os endpoints | Navegador | pendente |
-| FE-09 | Frontend consumindo a API | Telas usam a API real, com estados de carregamento e erro | Navegador | pendente |
+| FE-09 | Frontend consumindo a API | Telas usam a API real, com estados de carregamento e erro | Navegador | feito |
 | FE-10 | Teste de um fluxo do frontend | Teste da busca ou do formulário passa | `npm test` | pendente |
 | DOC-01 | README e AI_USAGE atualizados | Seguir o README do zero roda o projeto completo | Execução do zero | pendente |
