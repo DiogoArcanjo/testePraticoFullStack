@@ -12,4 +12,5 @@
 | FE-05a | Serviço em memória + formulário de cadastro | Cadastro válido aparece na lista; campo vazio, email inválido ou duplicado mostra erro | Navegador | feito |
 | FE-05b | Edição de usuário | Edição salva as mudanças; email de outro usuário é rejeitado | Navegador | feito |
 | FE-06 | Tela de detalhes | Mostra dados e botões editar/excluir | Navegador | feito |
-| FE-07 | Tela de clima (mock) | Mostra temperatura, umidade e gráfico | Navegador | pendente |
+| FE-07 | Tela de clima (mock) | Mostra temperatura, umidade e gráfico | Navegador | feito |
+| FE-08 | Visual responsivo e acessível | Telas legíveis no celular e no computador; foco visível ao navegar por teclado | Navegador (desktop e modo celular) | pendente |
